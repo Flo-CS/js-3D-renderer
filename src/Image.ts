@@ -39,9 +39,9 @@ export default class Image {
 
   putPixel(x: number, y: number, color: Color) {
     const offset = (y * this.width + x) * 4;
-    this.canvas.pixels[offset] = color.r | 0;
-    this.canvas.pixels[offset + 1] = color.g | 0;
-    this.canvas.pixels[offset + 2] = color.b | 0;
+    this.canvas.pixels[offset] = color.red;
+    this.canvas.pixels[offset + 1] = color.green;
+    this.canvas.pixels[offset + 2] = color.blue;
     this.canvas.pixels[offset + 3] = 255;
   }
 
@@ -57,4 +57,12 @@ export default class Image {
 
     elem.appendChild(this.canvas.element);
   }
+
+  convertPixelCoordsIntoPercentages(x: number, y: number): { alpha: number, beta: number } {
+    return {
+      alpha: x / (this.width - 1),
+      beta: y / (this.height - 1),
+    }
+  }
+
 }

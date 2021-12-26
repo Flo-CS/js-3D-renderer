@@ -1,10 +1,11 @@
 export default class Color {
-    r: number;
-    g: number;
-    b: number;
-    constructor(r: number, g: number, b: number) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
+    red: number;
+    green: number;
+    blue: number;
+
+    constructor(red?: number, green?: number, blue?: number) {
+        this.red = red || 0;
+        this.green = green || 0;
+        this.blue = blue || 0;
     }
 }
