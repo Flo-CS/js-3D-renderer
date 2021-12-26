@@ -19,6 +19,13 @@ export default class Vector {
 
     minus(vector: Vector): Vector {
         return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
+    }
 
+    dot(vector: Vector): number {
+        return this.x * vector.x + this.y * vector.y + this.z * vector.z
+    }
+
+    get norm(): number {
+        return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2)
     }
 }

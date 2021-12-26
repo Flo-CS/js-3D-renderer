@@ -4,8 +4,11 @@ import ImagePlane from "./ImagePlane";
 import Vector from "./Vector";
 import Camera from "./Camera";
 import Ray from "./Ray";
+import Sphere from "./Sphere";
 import { scale } from "./utilities"
 
+
+// SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE
 const WIDTH = 256;
 const HEIGHT = 192;
 
@@ -21,35 +24,65 @@ const imagePlane = new ImagePlane(
     IMAGE_PLANE_LEFT, IMAGE_PLANE_RIGHT, IMAGE_PLANE_TOP, IMAGE_PLANE_BOTTOM
 )
 
+// SETUP THE CAMERA
 const camera = new Camera(new Vector(0, 0, -1))
 
-const rays: Ray[] = [];
+
+// SETUP THE SCENE
+// TODO: CREATE A SCENE CLASS
+const scene: any[] = []
+
+const sphere1 = new Sphere(new Vector(0.25, 0.5, 0), 0.25, new Color(1, 0, 0))
+const sphere2 = new Sphere(new Vector(-0.10, -0.25, 0), 0.15, new Color(0, 1, 0))
+
+scene.push(sphere1)
+scene.push(sphere2)
+
+// DETERMINE WHERE TO CAST RAYS AND CREATE CORRESPONDING RAYS
+const rays: Ray[][] = [];
 
 for (let y = 0; y < HEIGHT; y++) {
+    rays.push([])
     for (let x = 0; x < WIDTH; x++) {
         const { alpha, beta } = image.convertPixelCoordsIntoPercentages(x, y);
         const intersection = imagePlane.performBilinearInterpolation(alpha, beta);
 
         const ray = new Ray(intersection, intersection.minus(camera.location));
-        rays.push(ray)
+        rays[y].push(ray)
     }
 }
 
-console.log(rays);
+// DETERMINE RAYS INTERSECTIONS WITH OBJECTS IN THE SCENE
 
+for (let y = 0; y < rays.length; y++) {
+    for (let x = 0; x < rays[y].length; x++) {
 
-for (let y = 0; y < HEIGHT; y++) {
-    for (let x = 0; x < WIDTH; x++) {
-        const offset = y * WIDTH + x;
-        const color = new Color(
-            scale(rays[offset].direction.x, IMAGE_PLANE_LEFT, IMAGE_PLANE_RIGHT, 0, 255),
-            scale(rays[offset].direction.y, IMAGE_PLANE_TOP, IMAGE_PLANE_BOTTOM, 255, 0),
-            256 / 2
-        );
+        const object = determineClosestObject(scene, rays[y][x])
 
-        image.putPixel(x, y, color);
-
+        if (object != null) {
+            image.putPixel(x, y, object.color)
+        } else {
+            image.putPixel(x, y, new Color())
+        }
     }
 }
 
+
+function determineClosestObject(scene: any[], ray: Ray) {
+    let closestObject = null;
+    let lowestIntersection = Infinity; // Note: this work because intersection can't be inferior to 0
+
+    for (const object of scene) {
+        const intersection = object.intersect(ray)
+        if (intersection && intersection < lowestIntersection) {
+            lowestIntersection = intersection;
+            closestObject = object;
+        }
+    }
+
+    return closestObject
+}
+
+
+// RENDER THE CREATED IMAGE INTO THE HTML DOCUMENT
 image.renderInto(document.body);

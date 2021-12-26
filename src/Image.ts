@@ -38,6 +38,9 @@ export default class Image {
   }
 
   putPixel(x: number, y: number, color: Color) {
+
+    color = color.normalize()
+
     const offset = (y * this.width + x) * 4;
     this.canvas.pixels[offset] = color.red;
     this.canvas.pixels[offset + 1] = color.green;
