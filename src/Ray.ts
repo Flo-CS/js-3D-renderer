@@ -9,4 +9,10 @@ export default class Ray {
         this.origin = origin;
         this.direction = direction;
     }
+
+    // TODO : Understand this because this is a part of the tutorial solution
+    at(t: number) {
+        return this.origin.add(this.direction.scale(t));
+
+    }
 }

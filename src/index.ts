@@ -1,11 +1,12 @@
-import Color from "./Color";
-import Image from "./Image";
-import ImagePlane from "./ImagePlane";
-import Vector from "./Vector";
 import Camera from "./Camera";
-import Ray from "./Ray";
-import Sphere from "./Sphere";
-import { scale } from "./utilities"
+import Image from "./image/Image";
+import ImagePlane from "./image/ImagePlane";
+import Light from "./lights/Light";
+import Color from "./materials/Color";
+import Material from "./materials/Material";
+import Scene from "./Scene";
+import Sphere from "./things/Sphere";
+import Vector from "./Vector";
 
 
 // SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE
@@ -13,76 +14,44 @@ const WIDTH = 256;
 const HEIGHT = 192;
 
 // Keep same aspect ratio as the image
-const IMAGE_PLANE_LEFT = -1;
-const IMAGE_PLANE_RIGHT = 1;
-const IMAGE_PLANE_TOP = -0.75;
-const IMAGE_PLANE_BOTTOM = 0.75;
+const IMAGE_PLANE_LEFT = -1.28;
+const IMAGE_PLANE_RIGHT = 1.28;
+const IMAGE_PLANE_TOP = 0.86;
+const IMAGE_PLANE_BOTTOM = -0.86;
+const IMAGE_PLANE_DEPTH = -0.5;
 
 const image = new Image(WIDTH, HEIGHT);
 
 const imagePlane = new ImagePlane(
-    IMAGE_PLANE_LEFT, IMAGE_PLANE_RIGHT, IMAGE_PLANE_TOP, IMAGE_PLANE_BOTTOM
+    IMAGE_PLANE_LEFT, IMAGE_PLANE_RIGHT, IMAGE_PLANE_TOP, IMAGE_PLANE_BOTTOM, IMAGE_PLANE_DEPTH
 )
 
 // SETUP THE CAMERA
-const camera = new Camera(new Vector(0, 0, -1))
+const camera = new Camera(new Vector(0, 0, 2))
 
 
 // SETUP THE SCENE
-// TODO: CREATE A SCENE CLASS
-const scene: any[] = []
+const scene = new Scene(document.body, image, imagePlane, camera)
 
-const sphere1 = new Sphere(new Vector(0.25, 0.5, 0), 0.25, new Color(1, 0, 0))
-const sphere2 = new Sphere(new Vector(-0.10, -0.25, 0), 0.15, new Color(0, 1, 0))
+const redMaterial = new Material(
+    new Color(0.9, 0, 0),
+    new Color(0.7, 0.4, 0.4),
+    new Color(0.7, 0.7, 0.7),
+    20
+)
 
-scene.push(sphere1)
-scene.push(sphere2)
+const sphere1 = new Sphere(new Vector(-1.1, 0.6, -1), 0.2, redMaterial)
+const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, redMaterial)
+const sphere3 = new Sphere(new Vector(1.2, -0.5, -1.75), 0.4, redMaterial)
 
-// DETERMINE WHERE TO CAST RAYS AND CREATE CORRESPONDING RAYS
-const rays: Ray[][] = [];
+scene.addThing(sphere1)
+scene.addThing(sphere2)
+scene.addThing(sphere3)
 
-for (let y = 0; y < HEIGHT; y++) {
-    rays.push([])
-    for (let x = 0; x < WIDTH; x++) {
-        const { alpha, beta } = image.convertPixelCoordsIntoPercentages(x, y);
-        const intersection = imagePlane.performBilinearInterpolation(alpha, beta);
+const light1 = new Light(new Vector(-1, -0.5, 1), new Color(0, 0.6, 0), new Color(0.5, 0.5, 0.5))
+const light2 = new Light(new Vector(3, 2, 1), new Color(0.4, 0.4, 0.4), new Color(0.5, 0.5, 0.5))
 
-        const ray = new Ray(intersection, intersection.minus(camera.location));
-        rays[y].push(ray)
-    }
-}
+scene.addLight(light1)
+scene.addLight(light2)
 
-// DETERMINE RAYS INTERSECTIONS WITH OBJECTS IN THE SCENE
-
-for (let y = 0; y < rays.length; y++) {
-    for (let x = 0; x < rays[y].length; x++) {
-
-        const object = determineClosestObject(scene, rays[y][x])
-
-        if (object != null) {
-            image.putPixel(x, y, object.color)
-        } else {
-            image.putPixel(x, y, new Color())
-        }
-    }
-}
-
-
-function determineClosestObject(scene: any[], ray: Ray) {
-    let closestObject = null;
-    let lowestIntersection = Infinity; // Note: this work because intersection can't be inferior to 0
-
-    for (const object of scene) {
-        const intersection = object.intersect(ray)
-        if (intersection && intersection < lowestIntersection) {
-            lowestIntersection = intersection;
-            closestObject = object;
-        }
-    }
-
-    return closestObject
-}
-
-
-// RENDER THE CREATED IMAGE INTO THE HTML DOCUMENT
-image.renderInto(document.body);
+scene.renderScene();

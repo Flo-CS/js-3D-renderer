@@ -1,9 +1,9 @@
 import Vector from "./vector";
 
 export default class Camera {
-    location: Vector;
+    position: Vector;
 
-    constructor(location: Vector) {
-        this.location = location;
+    constructor(position: Vector) {
+        this.position = position;
     }
 }

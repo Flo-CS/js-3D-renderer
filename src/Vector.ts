@@ -25,7 +25,16 @@ export default class Vector {
         return this.x * vector.x + this.y * vector.y + this.z * vector.z
     }
 
+    normalize(): Vector {
+        return this.scale(1 / this.norm)
+    }
+
     get norm(): number {
         return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2)
     }
+
+    static lerp(start: Vector, end: Vector, t: number) {
+        return start.scale(1 - t).add(end.scale(t));
+    }
+
 }

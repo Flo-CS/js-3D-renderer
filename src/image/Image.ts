@@ -1,11 +1,6 @@
-import Color from "./Color"
-
-type Canvas = {
-  element: HTMLElement,
-  context: CanvasRenderingContext2D,
-  imageData: ImageData,
-  pixels: Uint8ClampedArray
-}
+import Color from "../materials/Color"
+import { Canvas } from "../types";
+import { scale } from "../utilities";
 
 export default class Image {
   width: number;
@@ -39,12 +34,15 @@ export default class Image {
 
   putPixel(x: number, y: number, color: Color) {
 
-    color = color.normalize()
+    const red = color.red * 255
+    const green = color.green * 255
+    const blue = color.blue * 255
+
 
     const offset = (y * this.width + x) * 4;
-    this.canvas.pixels[offset] = color.red;
-    this.canvas.pixels[offset + 1] = color.green;
-    this.canvas.pixels[offset + 2] = color.blue;
+    this.canvas.pixels[offset] = red;
+    this.canvas.pixels[offset + 1] = green;
+    this.canvas.pixels[offset + 2] = blue;
     this.canvas.pixels[offset + 3] = 255;
   }
 
@@ -61,11 +59,5 @@ export default class Image {
     elem.appendChild(this.canvas.element);
   }
 
-  convertPixelCoordsIntoPercentages(x: number, y: number): { alpha: number, beta: number } {
-    return {
-      alpha: x / (this.width - 1),
-      beta: y / (this.height - 1),
-    }
-  }
 
 }
