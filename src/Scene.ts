@@ -6,7 +6,7 @@ import Light from "./lights/Light";
 import Ray from "./vectors/Ray";
 import Thing from "./things/Thing";
 import Color from "./materials/Color";
-import { calculateDiffuseTermForLight, getPhongColor } from "./helpers/phongIlluminationModel";
+import { calculateDiffuseTermForLight, getPhongColorAtIntersection as computePhongColor } from "./helpers/phongIlluminationModel";
 import Vector from "./vectors/Vector";
 import { Intersection } from "./helpers/types";
 import { min } from "./helpers/utilities";
@@ -73,7 +73,7 @@ export default class Scene {
         return minIntersection;
     }
 
-    computeColorAtIntersection(intersection: Intersection, ray: Ray): Color {
+    getColorAtIntersection(intersection: Intersection, ray: Ray): Color {
 
         if (intersection != null) {
             const { thing, t } = intersection;
@@ -81,7 +81,7 @@ export default class Scene {
             const point = ray.at(t)
             const surfaceNormal = thing.computeSurfaceNormal(point);
 
-            return getPhongColor(thing.material, point, surfaceNormal, this.ambientLight, this.lights, this.camera)
+            return computePhongColor(thing.material, point, surfaceNormal, this.ambientLight, this.lights, this.camera)
         } else {
             return new Color()
         }
@@ -96,7 +96,7 @@ export default class Scene {
 
                 const intersection = this.determineClosestIntersection(ray)
 
-                const color = this.computeColorAtIntersection(intersection, ray);
+                const color = this.getColorAtIntersection(intersection, ray);
 
                 this.image.putPixel(x, y, color)
 

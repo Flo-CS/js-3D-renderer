@@ -26,7 +26,7 @@ export function calculateSpecularTermForLight(light: Light, material: Material, 
         .mix(quantityReflectedToCamera ** material.shininess)
 }
 
-export function getPhongColor(material: Material, point: Vector, surfaceNormal: Vector, ambientLight: AmbientLight, lights: Light[], camera: Camera): Color {
+export function getPhongColorAtIntersection(material: Material, point: Vector, surfaceNormal: Vector, ambientLight: AmbientLight, lights: Light[], camera: Camera): Color {
 
     let finalColor = new Color(0, 0, 0);
 

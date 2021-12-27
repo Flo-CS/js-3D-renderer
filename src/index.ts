@@ -10,15 +10,15 @@ import Vector from "./vectors/Vector";
 
 
 // SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE
-const WIDTH = 256;
-const HEIGHT = 192;
+const WIDTH = 512;
+const HEIGHT = 512;
 
 // Keep same aspect ratio as the image
-const IMAGE_PLANE_LEFT = -1.28;
-const IMAGE_PLANE_RIGHT = 1.28;
-const IMAGE_PLANE_TOP = 0.86;
-const IMAGE_PLANE_BOTTOM = -0.86;
-const IMAGE_PLANE_DEPTH = -0.5;
+const IMAGE_PLANE_LEFT = -2;
+const IMAGE_PLANE_RIGHT = 2;
+const IMAGE_PLANE_TOP = 2;
+const IMAGE_PLANE_BOTTOM = -2;
+const IMAGE_PLANE_DEPTH = 0;
 
 const image = new Image(WIDTH, HEIGHT);
 
@@ -27,7 +27,7 @@ const imagePlane = new ImagePlane(
 )
 
 // SETUP THE CAMERA
-const camera = new Camera(new Vector(0, 0, 2))
+const camera = new Camera(new Vector(0, 0, 10))
 
 
 // SETUP THE SCENE
