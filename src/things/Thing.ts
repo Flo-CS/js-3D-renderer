@@ -1,7 +1,7 @@
 import Color from "../materials/Color";
 import Material from "../materials/Material";
-import Vector from "./../Vector";
-import Ray from "./../Ray";
+import Vector from "../vectors/Vector";
+import Ray from "../vectors/Ray";
 
 export default class Thing {
     position: Vector;

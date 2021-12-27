@@ -1,5 +1,5 @@
 import Color from "../materials/Color";
-import Vector from "../Vector";
+import Vector from "../vectors/Vector";
 
 export default class Light {
     position: Vector;

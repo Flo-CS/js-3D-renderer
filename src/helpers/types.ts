@@ -1,4 +1,4 @@
-import Thing from "./things/Thing"
+import Thing from "../things/Thing"
 
 export type Canvas = {
     element: HTMLElement,

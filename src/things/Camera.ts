@@ -1,4 +1,4 @@
-import Vector from "./vector";
+import Vector from "../vectors/Vector";
 
 export default class Camera {
     position: Vector;

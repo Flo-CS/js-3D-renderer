@@ -1,15 +1,15 @@
 import AmbientLight from "./lights/AmbientLight";
-import Camera from "./Camera"
+import Camera from "./things/Camera"
 import Image from "./image/Image";
 import ImagePlane from "./image/ImagePlane";
 import Light from "./lights/Light";
-import Ray from "./Ray";
+import Ray from "./vectors/Ray";
 import Thing from "./things/Thing";
 import Color from "./materials/Color";
-import { calculateDiffuseTermForLight, getPhongColor } from "./phongIlluminationModel";
-import Vector from "./Vector";
-import { Intersection } from "./types";
-import { min } from "./utilities";
+import { calculateDiffuseTermForLight, getPhongColor } from "./helpers/phongIlluminationModel";
+import Vector from "./vectors/Vector";
+import { Intersection } from "./helpers/types";
+import { min } from "./helpers/utilities";
 
 export default class Scene {
     element: HTMLElement;

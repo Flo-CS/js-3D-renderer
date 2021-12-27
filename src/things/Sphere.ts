@@ -1,9 +1,9 @@
-import Vector from "../Vector";
+import Vector from "../vectors/Vector";
 import Color from "../materials/Color"
-import Ray from "../Ray";
+import Ray from "../vectors/Ray";
 import Thing from "./Thing"
 import Material from "../materials/Material";
-import { min } from "../utilities";
+import { min } from "../helpers/utilities";
 
 export default class Sphere extends Thing {
     radius: number;

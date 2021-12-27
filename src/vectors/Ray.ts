@@ -1,5 +1,5 @@
-import Camera from "./Camera";
-import Vector from "./vector";
+import Camera from "../things/Camera";
+import Vector from "./Vector";
 
 export default class Ray {
     origin: Vector;

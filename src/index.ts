@@ -1,4 +1,4 @@
-import Camera from "./Camera";
+import Camera from "./things/Camera";
 import Image from "./image/Image";
 import ImagePlane from "./image/ImagePlane";
 import Light from "./lights/Light";
@@ -6,7 +6,7 @@ import Color from "./materials/Color";
 import Material from "./materials/Material";
 import Scene from "./Scene";
 import Sphere from "./things/Sphere";
-import Vector from "./Vector";
+import Vector from "./vectors/Vector";
 
 
 // SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE

@@ -1,11 +1,11 @@
-import Camera from "./Camera";
-import AmbientLight from "./lights/AmbientLight";
-import Light from "./lights/Light";
-import Color from "./materials/Color";
-import Material from "./materials/Material";
-import Ray from "./Ray";
-import Thing from "./things/Thing";
-import Vector from "./vector";
+import Camera from "../things/Camera";
+import AmbientLight from "../lights/AmbientLight";
+import Light from "../lights/Light";
+import Color from "../materials/Color";
+import Material from "../materials/Material";
+import Ray from "../vectors/Ray";
+import Thing from "../things/Thing";
+import Vector from "../vectors/Vector";
 
 // TODO: Replace parameters by more specific parameters (eg: not thing but thing.material ...)
 export function calculateAmbientTerm(ambientLight: AmbientLight, material: Material): Color {

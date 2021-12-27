@@ -1,4 +1,4 @@
-import Vector from "./../Vector";
+import Vector from "../vectors/Vector";
 
 export default class ImagePlane {
     leftTop: Vector;
