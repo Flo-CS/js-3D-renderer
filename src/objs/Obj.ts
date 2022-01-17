@@ -2,7 +2,7 @@ import Material from "../materials/Material";
 import Ray from "../vectors/Ray";
 import Vector from "../vectors/Vector";
 
-export default abstract class Thing {
+export default abstract class Obj {
     position: Vector;
     material: Material;
 

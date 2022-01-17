@@ -4,8 +4,8 @@ import Light from "./lights/Light";
 import Color from "./materials/Color";
 import Material from "./materials/Material";
 import Scene from "./Scene";
-import Camera from "./things/Camera";
-import Sphere from "./things/Sphere";
+import Camera from "./objs/Camera";
+import Sphere from "./objs/Sphere";
 import Vector from "./vectors/Vector";
 
 
@@ -37,21 +37,24 @@ const redMaterial = new Material(
     new Color(0.1, 0.1, 0.1),
     new Color(0.5, 0.9, 0.5),
     new Color(0.7, 0.7, 0.7),
-    20
+    new Color(0.9, 0.9, 0.8),
+    20,
 )
 
 const blueMaterial = new Material(
     new Color(0.1, 0.1, 0.1),
     new Color(0.5, 0.5, 0.9),
     new Color(0.7, 0.7, 0.7),
-    20
+    new Color(0.1, 0.1, 0.2),
+    20,
 )
 
 const greenMaterial = new Material(
     new Color(0.1, 0.1, 0.1),
     new Color(0.9, 0.5, 0.5),
     new Color(0.7, 0.7, 0.7),
-    20
+    new Color(0.2, 0.1, 0.1),
+    20,
 )
 
 
@@ -59,9 +62,9 @@ const sphere1 = new Sphere(new Vector(-1.1, 0.6, -1), 0.2, blueMaterial)
 const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, greenMaterial)
 const sphere3 = new Sphere(new Vector(1.2, -0.5, -1.75), 0.4, redMaterial)
 
-scene.addThing(sphere1)
-scene.addThing(sphere2)
-scene.addThing(sphere3)
+scene.addObj(sphere1)
+scene.addObj(sphere2)
+scene.addObj(sphere3)
 
 const light1 = new Light(new Vector(-3, -0.5, 1), new Color(0.8, 0.3, 0.3), new Color(0.8, 0.8, 0.8))
 const light2 = new Light(new Vector(3, 2, 1), new Color(0.4, 0.4, 0.9), new Color(0.8, 0.8, 0.8))

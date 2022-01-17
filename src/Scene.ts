@@ -6,8 +6,8 @@ import ImagePlane from "./image/ImagePlane";
 import AmbientLight from "./lights/AmbientLight";
 import Light from "./lights/Light";
 import Color from "./materials/Color";
-import Camera from "./things/Camera";
-import Thing from "./things/Thing";
+import Camera from "./objs/Camera";
+import Obj from "./objs/Obj";
 import Ray from "./vectors/Ray";
 import Vector from "./vectors/Vector";
 
@@ -18,7 +18,7 @@ export default class Scene {
     camera: Camera;
     ambientLight: AmbientLight;
     lights: Light[];
-    things: Thing[];
+    objs: Obj[];
 
 
     constructor(element: HTMLElement, image: Image, imagePlane: ImagePlane, camera: Camera) {
@@ -27,13 +27,13 @@ export default class Scene {
         this.imagePlane = imagePlane;
         this.camera = camera;
 
-        this.things = []
+        this.objs = []
         this.lights = []
         this.ambientLight = new AmbientLight(new Color(0.5, 0.5, 0.5));
     }
 
-    addThing(thing: Thing) {
-        this.things.push(thing)
+    addObj(obj: Obj) {
+        this.objs.push(obj)
     }
 
     addLight(light: Light) {
@@ -56,16 +56,16 @@ export default class Scene {
 
     determineClosestIntersection(ray: Ray): Intersection | null {
 
-        const intersections = this.things.map((thing) => {
-            const t = thing.computeIntersection(ray)
+        const intersections = this.objs.map((obj) => {
+            const t = obj.computeIntersection(ray)
 
             if (!t) return null;
 
             const point = ray.at(t);
-            const surfaceNormal = thing.computeSurfaceNormal(point)
+            const surfaceNormal = obj.computeSurfaceNormal(point)
 
             return {
-                thing,
+                obj,
                 t,
                 point,
                 surfaceNormal
@@ -80,28 +80,24 @@ export default class Scene {
             return new Color(0, 0, 0);;
         }
 
-        const noShadowLights = this.lights.filter(light => !this.isThingInShadow(intersection.thing, intersection.point, light))
+        const noShadowLights = this.lights.filter(light => !this.isObjInShadow(intersection.obj, intersection.point, light))
 
         return computePhongColor(intersection, this.ambientLight, noShadowLights, this.camera);
     }
 
-    isThingInShadow(thing: Thing, point: Vector, light: Light) {
-        const things = this.things.filter(t => t != thing);
+    isObjInShadow(obj: Obj, point: Vector, light: Light) {
+        const objs = this.objs.filter(t => t != obj);
 
         const shadowRay = new Ray(point, light.position.minus(point))
 
-        return things.some(thing => {
+        return objs.some(obj => {
 
-            const t = thing.computeIntersection(shadowRay)
+            const t = obj.computeIntersection(shadowRay)
             return t != null && t > 0 && t < 1;
         })
-
-
     }
 
     renderScene() {
-        // DETERMINE RAYS INTERSECTIONS WITH OBJECTS (called "thing" because object is a reserved js keyword) IN THE SCENE
-
         for (let y = 0; y < this.image.height; y++) {
             for (let x = 0; x < this.image.width; x++) {
                 const ray = this.getRayFromPixelsCoords(x, y)

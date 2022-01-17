@@ -1,4 +1,4 @@
-import Thing from "../things/Thing"
+import Obj from "../objs/Obj"
 import Vector from "../vectors/Vector"
 
 export type Canvas = {
@@ -9,7 +9,7 @@ export type Canvas = {
 }
 
 export type Intersection = {
-    thing: Thing,
+    obj: Obj,
     t: number,
     surfaceNormal: Vector,
     point: Vector

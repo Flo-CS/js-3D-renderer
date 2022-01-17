@@ -2,9 +2,9 @@ import { min } from "../helpers/utilities";
 import Material from "../materials/Material";
 import Ray from "../vectors/Ray";
 import Vector from "../vectors/Vector";
-import Thing from "./Thing";
+import Obj from "./Obj";
 
-export default class Sphere extends Thing {
+export default class Sphere extends Obj {
     radius: number;
 
     constructor(center: Vector, radius: number, material: Material) {
