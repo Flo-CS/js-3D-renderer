@@ -1,7 +1,6 @@
-import Color from "../materials/Color";
 import Material from "../materials/Material";
-import Vector from "../vectors/Vector";
 import Ray from "../vectors/Ray";
+import Vector from "../vectors/Vector";
 
 export default class Thing {
     position: Vector;
@@ -15,6 +14,7 @@ export default class Thing {
     computeIntersection(ray: Ray): null | number {
         return null;
     }
+
 
     computeSurfaceNormal(point: Vector): Vector {
         return new Vector(0, 0, 0);

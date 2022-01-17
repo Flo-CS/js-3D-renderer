@@ -1,4 +1,4 @@
-import { clamp, scale } from "../helpers/utilities";
+import { clamp } from "../helpers/utilities";
 
 export default class Color {
     red: number;

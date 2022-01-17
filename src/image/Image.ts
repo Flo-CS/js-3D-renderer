@@ -1,6 +1,5 @@
-import Color from "../materials/Color"
 import { Canvas } from "../helpers/types";
-import { scale } from "../helpers/utilities";
+import Color from "../materials/Color";
 
 export default class Image {
   width: number;

@@ -1,4 +1,4 @@
-import Color from "../materials/Color"
+import Color from "../materials/Color";
 
 export default class AmbientLight {
     ambientLightIntensity: Color;

@@ -1,4 +1,3 @@
-import Camera from "../things/Camera";
 import Vector from "./Vector";
 
 export default class Ray {
