@@ -4,6 +4,7 @@ import Color from "../materials/Color";
 import Material from "../materials/Material";
 import Camera from "../things/Camera";
 import Vector from "../vectors/Vector";
+import { Intersection } from "./types";
 
 // TODO: Replace parameters by more specific parameters (eg: not thing but thing.material ...)
 export function calculateAmbientTerm(ambientLight: AmbientLight, material: Material): Color {
@@ -24,12 +25,11 @@ export function calculateSpecularTermForLight(light: Light, material: Material, 
         .mix(quantityReflectedToCamera ** material.shininess)
 }
 
-export function getPhongColorAtIntersection(material: Material, point: Vector, surfaceNormal: Vector, ambientLight: AmbientLight, lights: Light[], camera: Camera): Color {
+export function getPhongColorAtIntersection({ thing, point, surfaceNormal }: Intersection, ambientLight: AmbientLight, lights: Light[], camera: Camera): Color {
 
     let finalColor = new Color(0, 0, 0);
 
-    finalColor = finalColor
-        .add(calculateAmbientTerm(ambientLight, material));
+    const viewVector = point.minus(camera.position).normalize()
 
     for (const light of lights) {
         const lightVector = light.position.minus(point).normalize();
@@ -42,12 +42,13 @@ export function getPhongColorAtIntersection(material: Material, point: Vector, s
 
         const reflectanceVector = surfaceNormal.scale(2).scale(lightSurfaceNormalDirection).minus(lightVector);
 
-        const viewVector = point.minus(camera.position).normalize()
-
-        finalColor = finalColor.add(calculateDiffuseTermForLight(light, material, lightSurfaceNormalDirection))
-        finalColor = finalColor.add(calculateSpecularTermForLight(light, material, viewVector, reflectanceVector))
+        finalColor = finalColor.add(calculateDiffuseTermForLight(light, thing.material, lightSurfaceNormalDirection))
+        finalColor = finalColor.add(calculateSpecularTermForLight(light, thing.material, viewVector, reflectanceVector))
 
     }
+
+    finalColor = finalColor
+        .add(calculateAmbientTerm(ambientLight, thing.material));
 
     finalColor.clamp()
 

@@ -2,7 +2,7 @@ import Material from "../materials/Material";
 import Ray from "../vectors/Ray";
 import Vector from "../vectors/Vector";
 
-export default class Thing {
+export default abstract class Thing {
     position: Vector;
     material: Material;
 
@@ -11,13 +11,8 @@ export default class Thing {
         this.material = material;
     }
 
-    computeIntersection(ray: Ray): null | number {
-        return null;
-    }
+    abstract computeIntersection(ray: Ray): null | number
 
-
-    computeSurfaceNormal(point: Vector): Vector {
-        return new Vector(0, 0, 0);
-    }
+    abstract computeSurfaceNormal(point: Vector): Vector
 
 }

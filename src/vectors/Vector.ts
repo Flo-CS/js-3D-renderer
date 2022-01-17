@@ -17,6 +17,10 @@ export default class Vector {
         return new Vector(this.x * scalar, this.y * scalar, this.z * scalar)
     }
 
+    divide(scalar: number): Vector {
+        return new Vector(this.x / scalar, this.y / scalar, this.z / scalar)
+    }
+
     minus(vector: Vector): Vector {
         return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
     }
@@ -26,7 +30,7 @@ export default class Vector {
     }
 
     normalize(): Vector {
-        return this.scale(1 / this.norm)
+        return this.divide(this.norm)
     }
 
     get norm(): number {

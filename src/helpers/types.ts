@@ -1,4 +1,5 @@
 import Thing from "../things/Thing"
+import Vector from "../vectors/Vector"
 
 export type Canvas = {
     element: HTMLElement,
@@ -9,5 +10,7 @@ export type Canvas = {
 
 export type Intersection = {
     thing: Thing,
-    t: number
-} | null
+    t: number,
+    surfaceNormal: Vector,
+    point: Vector
+}

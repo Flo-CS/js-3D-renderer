@@ -9,6 +9,7 @@ import Color from "./materials/Color";
 import Camera from "./things/Camera";
 import Thing from "./things/Thing";
 import Ray from "./vectors/Ray";
+import Vector from "./vectors/Vector";
 
 export default class Scene {
     element: HTMLElement;
@@ -41,7 +42,6 @@ export default class Scene {
 
     setAmbientLight(ambientLight: AmbientLight) {
         this.ambientLight = ambientLight
-
     }
 
     getRayFromPixelsCoords(x: number, y: number): Ray {
@@ -54,36 +54,49 @@ export default class Scene {
         return new Ray(point, point.minus(this.camera.position));
     }
 
-    determineClosestIntersection(ray: Ray): Intersection {
+    determineClosestIntersection(ray: Ray): Intersection | null {
 
         const intersections = this.things.map((thing) => {
             const t = thing.computeIntersection(ray)
 
+            if (!t) return null;
+
+            const point = ray.at(t);
+            const surfaceNormal = thing.computeSurfaceNormal(point)
+
             return {
                 thing,
-                t
+                t,
+                point,
+                surfaceNormal
             }
-        }).filter((intersection) => intersection.t)
+        }).filter(intersection => intersection);
 
-        if (intersections.length == 0) return null;
-
-        const minIntersection = min(intersections, (intersection) => intersection.t)
-
-        return minIntersection;
+        return min(intersections, (intersection) => intersection.t);
     }
 
-    getColorAtIntersection(intersection: Intersection, ray: Ray): Color {
-
-        if (intersection != null) {
-            const { thing, t } = intersection;
-
-            const point = ray.at(t)
-            const surfaceNormal = thing.computeSurfaceNormal(point);
-
-            return computePhongColor(thing.material, point, surfaceNormal, this.ambientLight, this.lights, this.camera)
-        } else {
-            return new Color()
+    getColorAtIntersection(intersection: Intersection | null, ray: Ray): Color {
+        if (!intersection) {
+            return new Color(0, 0, 0);;
         }
+
+        const noShadowLights = this.lights.filter(light => !this.isThingInShadow(intersection.thing, intersection.point, light))
+
+        return computePhongColor(intersection, this.ambientLight, noShadowLights, this.camera);
+    }
+
+    isThingInShadow(thing: Thing, point: Vector, light: Light) {
+        const things = this.things.filter(t => t != thing);
+
+        const shadowRay = new Ray(point, light.position.minus(point))
+
+        return things.some(thing => {
+
+            const t = thing.computeIntersection(shadowRay)
+            return t != null && t > 0 && t < 1;
+        })
+
+
     }
 
     renderScene() {

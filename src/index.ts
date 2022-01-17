@@ -10,15 +10,15 @@ import Vector from "./vectors/Vector";
 
 
 // SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE
-const WIDTH = 512;
-const HEIGHT = 512;
+const WIDTH = 256;
+const HEIGHT = 192;
 
 // Keep same aspect ratio as the image
-const IMAGE_PLANE_LEFT = -2;
-const IMAGE_PLANE_RIGHT = 2;
-const IMAGE_PLANE_TOP = 2;
-const IMAGE_PLANE_BOTTOM = -2;
-const IMAGE_PLANE_DEPTH = 0;
+const IMAGE_PLANE_LEFT = -1.28;
+const IMAGE_PLANE_RIGHT = 1.28;
+const IMAGE_PLANE_TOP = 0.86;
+const IMAGE_PLANE_BOTTOM = -0.86;
+const IMAGE_PLANE_DEPTH = -0.5;
 
 const image = new Image(WIDTH, HEIGHT);
 
@@ -27,29 +27,44 @@ const imagePlane = new ImagePlane(
 )
 
 // SETUP THE CAMERA
-const camera = new Camera(new Vector(0, 0, 10))
+const camera = new Camera(new Vector(0, 0, 2))
 
 
 // SETUP THE SCENE
 const scene = new Scene(document.body, image, imagePlane, camera)
 
 const redMaterial = new Material(
-    new Color(0.9, 0, 0),
-    new Color(0.7, 0.4, 0.4),
+    new Color(0.1, 0.1, 0.1),
+    new Color(0.5, 0.9, 0.5),
     new Color(0.7, 0.7, 0.7),
     20
 )
 
-const sphere1 = new Sphere(new Vector(-1.1, 0.6, -1), 0.2, redMaterial)
-const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, redMaterial)
+const blueMaterial = new Material(
+    new Color(0.1, 0.1, 0.1),
+    new Color(0.5, 0.5, 0.9),
+    new Color(0.7, 0.7, 0.7),
+    20
+)
+
+const greenMaterial = new Material(
+    new Color(0.1, 0.1, 0.1),
+    new Color(0.9, 0.5, 0.5),
+    new Color(0.7, 0.7, 0.7),
+    20
+)
+
+
+const sphere1 = new Sphere(new Vector(-1.1, 0.6, -1), 0.2, blueMaterial)
+const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, greenMaterial)
 const sphere3 = new Sphere(new Vector(1.2, -0.5, -1.75), 0.4, redMaterial)
 
 scene.addThing(sphere1)
 scene.addThing(sphere2)
 scene.addThing(sphere3)
 
-const light1 = new Light(new Vector(-1, -0.5, 1), new Color(0, 0.6, 0), new Color(0.5, 0.5, 0.5))
-const light2 = new Light(new Vector(3, 2, 1), new Color(0.4, 0.4, 0.4), new Color(0.5, 0.5, 0.5))
+const light1 = new Light(new Vector(-3, -0.5, 1), new Color(0.8, 0.3, 0.3), new Color(0.8, 0.8, 0.8))
+const light2 = new Light(new Vector(3, 2, 1), new Color(0.4, 0.4, 0.9), new Color(0.8, 0.8, 0.8))
 
 scene.addLight(light1)
 scene.addLight(light2)
