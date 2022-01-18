@@ -9,8 +9,6 @@ export default class Color {
         this.red = red
         this.green = green
         this.blue = blue
-
-        this.clamp();
     }
 
     mix(color: Color | number): Color {

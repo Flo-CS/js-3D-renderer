@@ -3,11 +3,9 @@ import Ray from "../vectors/Ray";
 import Vector from "../vectors/Vector";
 
 export default abstract class Obj {
-    position: Vector;
     material: Material;
 
-    constructor(position: Vector, material: Material) {
-        this.position = position;
+    constructor(material: Material) {
         this.material = material;
     }
 

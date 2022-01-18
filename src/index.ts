@@ -10,8 +10,8 @@ import Vector from "./vectors/Vector";
 
 
 // SETUP THE IMAGE AND THE PLANE REPRESENTING THE IMAGE
-const WIDTH = 256;
-const HEIGHT = 192;
+const WIDTH = 480;
+const HEIGHT = 360;
 
 // Keep same aspect ratio as the image
 const IMAGE_PLANE_LEFT = -1.28;
@@ -33,7 +33,7 @@ const camera = new Camera(new Vector(0, 0, 2))
 // SETUP THE SCENE
 const scene = new Scene(document.body, image, imagePlane, camera)
 
-const redMaterial = new Material(
+const greenMaterial = new Material(
     new Color(0.1, 0.1, 0.1),
     new Color(0.5, 0.9, 0.5),
     new Color(0.7, 0.7, 0.7),
@@ -49,7 +49,7 @@ const blueMaterial = new Material(
     20,
 )
 
-const greenMaterial = new Material(
+const redMaterial = new Material(
     new Color(0.1, 0.1, 0.1),
     new Color(0.9, 0.5, 0.5),
     new Color(0.7, 0.7, 0.7),
@@ -59,8 +59,8 @@ const greenMaterial = new Material(
 
 
 const sphere1 = new Sphere(new Vector(-1.1, 0.6, -1), 0.2, blueMaterial)
-const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, greenMaterial)
-const sphere3 = new Sphere(new Vector(1.2, -0.5, -1.75), 0.4, redMaterial)
+const sphere2 = new Sphere(new Vector(0.2, -0.1, -1), 0.5, redMaterial)
+const sphere3 = new Sphere(new Vector(1.2, -0.5, -1.75), 0.4, greenMaterial)
 
 scene.addObj(sphere1)
 scene.addObj(sphere2)

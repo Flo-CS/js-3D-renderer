@@ -12,5 +12,7 @@ export type Intersection = {
     obj: Obj,
     t: number,
     surfaceNormal: Vector,
-    point: Vector
+    point: Vector,
+    viewVector: Vector,
+    reflectanceVector: Vector
 }

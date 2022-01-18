@@ -25,17 +25,15 @@ export function calculateSpecularTermForLight(light: Light, material: Material, 
         .mix(quantityReflectedToCamera ** material.shininess)
 }
 
-export function getPhongColorAtIntersection({ obj, point, surfaceNormal }: Intersection, ambientLight: AmbientLight, lights: Light[], camera: Camera): Color {
+export function getPhongColorAtIntersection({ obj, point, surfaceNormal, viewVector }: Intersection, ambientLight: AmbientLight, lights: Light[]): Color {
 
     let finalColor = new Color(0, 0, 0);
-
-    const viewVector = point.minus(camera.position).normalize()
 
     for (const light of lights) {
         const lightVector = light.position.minus(point).normalize();
         const lightSurfaceNormalDirection = surfaceNormal.dot(lightVector)
 
-        // Ignore the light because the the light is facing the inside of the sphere
+        // Ignore the light because the light is facing the inside of the sphere
         if (lightSurfaceNormalDirection < 0) {
             continue;
         }

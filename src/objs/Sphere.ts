@@ -5,10 +5,12 @@ import Vector from "../vectors/Vector";
 import Obj from "./Obj";
 
 export default class Sphere extends Obj {
+    position: Vector;
     radius: number;
 
-    constructor(center: Vector, radius: number, material: Material) {
-        super(center, material)
+    constructor(position: Vector, radius: number, material: Material) {
+        super(material)
+        this.position = position;
         this.radius = radius;
     }
 
